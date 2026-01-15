@@ -52,6 +52,21 @@ async function run() {
       }
     })
 
+    // Get all contacts
+    app.get('/api/contact', async (req, res) => {
+      try {
+        const contacts = await client
+          .db('contactDB')
+          .collection('contacts')
+          .find({})
+          .toArray()
+        res.send(contacts)
+      } catch (err) {
+        console.error(err)
+        res.status(500).send({ message: 'Failed to fetch contacts' })
+      }
+    })
+
     // Test route
     app.get('/', (req, res) => {
       res.send('Contact form server running')
